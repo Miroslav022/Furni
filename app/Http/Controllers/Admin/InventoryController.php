@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 
+use App\Helpers\UserActivityLogger;
 use App\Http\Controllers\User\Controller;
 use App\Models\City;
 use App\Models\Country;
@@ -11,6 +12,7 @@ use App\Models\Location;
 use App\Models\ProductInventory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Mockery\Exception;
 
 class InventoryController extends Controller
@@ -50,13 +52,14 @@ class InventoryController extends Controller
             $inventory = new Inventory();
             $inventory->location_id = $locationId;
             $inventory->save();
+            UserActivityLogger::logActivity(__METHOD__, __CLASS__, "Add new city");
 
             DB::commit();
             return redirect()->back()->with('success', "Inventory has been successfully added");
 
         } catch (\Exception $e){
             DB::rollBack();
-            dd($e);
+            Log::error($e);
             return redirect()->back()->with('error', "Something is wrong");
         }
     }
@@ -90,9 +93,11 @@ class InventoryController extends Controller
             $location->address = $request->input('address') ?? $location->address;
             $location->city_id = $request->input('city') ?? $location->city_id;
             $location->save();
+            UserActivityLogger::logActivity(__METHOD__, __CLASS__, "Updated inventory");
+
             return redirect()->back()->with('success', "You have successfully updated inventory location");
         } catch (\Exception $e){
-            dd($e);
+            Log::error($e);
             return redirect()->back()->with('error', 'something is wrong');
 
         }
@@ -108,9 +113,12 @@ class InventoryController extends Controller
             if($inventory){
                 $inventory->is_deleted=1;
                 $inventory->save();
+                UserActivityLogger::logActivity(__METHOD__, __CLASS__, "Deleted inventory");
+
                 return redirect()->back()->with('success', 'Deleted successfully');
             }
         } catch (\Exception $e){
+            Log::error($e);
             return redirect()->back()->with('error', 'Something is wrong');
         }
     }

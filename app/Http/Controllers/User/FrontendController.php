@@ -17,8 +17,6 @@ class FrontendController extends OsnovniController
             ->get();
 
         $testimonials = Testimonial::all();
-        UserActivityLogger::logActivity(__METHOD__, __CLASS__);
-
         return view('users.Home.home', ['data' => $this->data, 'testimonials'=>$testimonials]);
     }
 
@@ -34,6 +32,7 @@ class FrontendController extends OsnovniController
 
         $categories = Category::all();
         $specifications = Specification::all();
+
         return view("users.shop.shop", ['data'=>$this->data, "products"=>$products, "specifications"=>$specifications, "categories"=>$categories, 'checkedCat'=>$checkedCategories,'checkedSpec'=>$checkedSpecifications, 'search'=>$search]);
     }
 

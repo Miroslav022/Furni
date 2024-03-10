@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\UserActivityLogger;
 use App\Http\Controllers\User\Controller;
 use App\Models\City;
 use App\Models\Country;
@@ -9,6 +10,7 @@ use App\Models\Location;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -62,10 +64,11 @@ class UserController extends Controller
             $newUser->role_id = $data['role'];
             $newUser->location_id = $locationId;
             $newUser->save();
+            UserActivityLogger::logActivity(__METHOD__, __CLASS__, "Added new user");
 
             return redirect()->back()->with('success', 'You have successfully added new user');
         } catch (\Exception $e) {
-            dd($e);
+            Log::error($e);
             return redirect()->back()->with('error', 'something is wrong');
         }
     }
@@ -120,10 +123,11 @@ class UserController extends Controller
             $user->role_id = $data['role'] ?? $user->role;
             $user->location_id = $user->location_id;
             $user->save();
+            UserActivityLogger::logActivity(__METHOD__, __CLASS__, "Updated user");
 
             return redirect()->back()->with('success', 'You have successfully updated user');
         } catch (\Exception $e) {
-            dd($e);
+            Log::error($e);
             return redirect()->back()->with('error', 'something is wrong');
         }
     }
@@ -137,9 +141,11 @@ class UserController extends Controller
             $user = User::find($id);
             $user->is_deleted = 1;
             $user->save();
+            UserActivityLogger::logActivity(__METHOD__, __CLASS__, "Deleted user");
+
             return redirect()->back()->with('success', 'You have successfully deleted user');
         }catch (\Exception $e){
-            dd($e);
+            Log::error($e);
         }
     }
 }

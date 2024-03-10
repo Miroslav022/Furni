@@ -8,6 +8,7 @@ use App\Http\Controllers\User\Controller;
 use App\Models\Testimonial;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class TestimonialsController extends Controller
 {
@@ -40,9 +41,12 @@ class TestimonialsController extends Controller
             $testimonial->function = $request->input('position');
             $testimonial->testimonial = $request->input('testimonial');
             $testimonial->save();
+            UserActivityLogger::logActivity(__METHOD__, __CLASS__, "Added new testimonial");
+
             return redirect()->back()->with('success', 'You have successfully added new testimonial');
 
         }catch (\Exception $e){
+            Log::error($e);
             return redirect()->back()->with('error', 'Something is wrong');
         }
     }
@@ -74,9 +78,12 @@ class TestimonialsController extends Controller
             $testimonial->name = $request->input('name');
             $testimonial->function = $request->input('position');
             $testimonial->testimonial = $request->input('testimonial');
+            UserActivityLogger::logActivity(__METHOD__, __CLASS__, "Updated testimonial");
+
             $testimonial->save();
             return redirect()->back()->with('success', 'You have successfully updated testimonial');
         }catch (\Exception $e){
+            Log::error($e);
             return redirect()->back()->with('error', 'Something is wrong');
         }
     }
@@ -89,8 +96,11 @@ class TestimonialsController extends Controller
         try {
             $testimonial = Testimonial::find($id);
             $testimonial->delete();
+            UserActivityLogger::logActivity(__METHOD__, __CLASS__, "Deleted testimonial");
+
             return redirect()->back()->with("success", "Deleted successfully");
         }catch (\Exception $e){
+            Log::error($e);
             return redirect()->back()->with('error', 'Something is wrong');
         }
     }

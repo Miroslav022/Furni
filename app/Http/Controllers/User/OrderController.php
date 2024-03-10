@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Helpers\UserActivityLogger;
 use App\Models\Cart;
 use App\Models\Country;
 use App\Models\Location;
@@ -74,14 +75,13 @@ class OrderController extends OsnovniController
             $deactiveCart->is_purchased=1;
             $deactiveCart->save();
             session()->remove('cart');
-
             DB::commit();
+            UserActivityLogger::logActivity(__METHOD__, __CLASS__, "make order");
             return redirect()->route('login')->with('success', 'You have successfully created order!');
 
 
         } catch (\Exception $e){
             DB::rollback();
-            dd($e);
 
         }
 
@@ -133,6 +133,7 @@ class OrderController extends OsnovniController
             $user->save();
 
             session()->put('user', $user);
+            UserActivityLogger::logActivity(__METHOD__, __CLASS__, "changed delivery location");
 
             return redirect()->back()->with('success', "You have successfully added a new shipping location");
         } catch (\Exception $e){

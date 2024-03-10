@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\admin;
 
 
+use App\Helpers\UserActivityLogger;
 use App\Http\Controllers\User\Controller;
 use App\Models\ProductInventory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Mockery\Exception;
 
 class ProductInventoryController extends Controller
@@ -45,13 +47,15 @@ class ProductInventoryController extends Controller
                 $prod_inv->inventory_id = $item['inventory_id'];
                 $prod_inv->product_id = $item['product_id'];
                 $prod_inv->quantity = $item['quantity'];
+                UserActivityLogger::logActivity(__METHOD__, __CLASS__, "Added new product inventory");
+
                 $prod_inv->save();
             }
 
 //            ProductInventory::insert($data);
             return response()->json([], 201);
         } catch (Exception $e){
-            dd($e);
+            Log::error($e);
             return response()->json([], 500);
 
         }
@@ -90,9 +94,12 @@ class ProductInventoryController extends Controller
             $inventory = ProductInventory::find($id);
             if($inventory){
                 $inventory->delete();
+                UserActivityLogger::logActivity(__METHOD__, __CLASS__, "Deleted product inventory");
+
                 return response()->json([], 204);
             }
         } catch (\Exception $e){
+            Log::error($e);
             return response()->json([], 500);
         }
     }

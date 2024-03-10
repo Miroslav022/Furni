@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\User;
 
 
+use App\Helpers\UserActivityLogger;
 use App\Models\Recension;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Mockery\Exception;
 
 class RecensionsController extends Controller
@@ -39,8 +41,11 @@ class RecensionsController extends Controller
             $recension->save();
 
             $recensionId = $recension->id;
+            UserActivityLogger::logActivity(__METHOD__, __CLASS__, "write recension for product");
+
             return response()->json(['name'=>session()->get('user')->first_name .' '. session()->get('user')->last_name, "recension_id"=>$recensionId], 201);
         }catch (\Exception $e){
+            Log::error($e);
             return response()->json([], 500);
         }
     }
@@ -77,9 +82,12 @@ class RecensionsController extends Controller
         try {
             $recension = Recension::find($id);
             $recension->delete();
+            UserActivityLogger::logActivity(__METHOD__, __CLASS__, "deleted recension");
+
             return response()->json([], '204');
 
         }catch (Exception $e){
+            Log::error($e);
             return response()->json([], '500');
         }
     }

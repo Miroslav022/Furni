@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\UserActivityLogger;
 use App\Http\Controllers\User\Controller;
 use App\Models\Country;
 use Illuminate\Http\Request;
@@ -35,6 +36,8 @@ class CountryController extends Controller
             $newCountry = new Country();
             $newCountry->country= $request->input('country');
             $newCountry->save();
+            UserActivityLogger::logActivity(__METHOD__, __CLASS__, "Add new country");
+
             return redirect()->back()->with('success', 'You have successfully added new country');
         }catch (Exception){
             return redirect()->back()->with('error', 'Something is wrong.');
@@ -68,6 +71,8 @@ class CountryController extends Controller
             $country = Country::find($id);
             $country->country = $request->input('country');
             $country->save();
+            UserActivityLogger::logActivity(__METHOD__, __CLASS__, "Updated country");
+
             return redirect()->back()->with(['success' => 'Updated successfully']);
         }catch (Exception){
             return redirect()->back()->with(['error' => 'Something is wrong']);
@@ -83,6 +88,8 @@ class CountryController extends Controller
             $country = Country::find($id);
             $country->is_deleted = 1;
             $country->save();
+            UserActivityLogger::logActivity(__METHOD__, __CLASS__, "Deleted country");
+
             return redirect()->back()->with('success', 'You have successfully deleted country');
         }catch (\Exception $e){
             dd($e);

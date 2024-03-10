@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\admin;
 
 
+use App\Helpers\UserActivityLogger;
 use App\Http\Controllers\User\Controller;
 use App\Models\ProductMaterial;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ProductMaterialController extends Controller
 {
@@ -43,10 +45,14 @@ class ProductMaterialController extends Controller
                 $product_material->product_id = $data['product_id'];
                 $product_material->material_id = $material;
                 $product_material->save();
+                UserActivityLogger::logActivity(__METHOD__, __CLASS__, "Added new product material");
+
             }
             return redirect()->back()->with('success', "You have successfully added materials for products");
         } catch (\Exception $e){
-            dd($e);
+            Log::error($e);
+            return redirect()->back()->with('error', "Something is wrong");
+
         }
     }
 

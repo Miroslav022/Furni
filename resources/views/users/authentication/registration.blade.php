@@ -18,7 +18,7 @@
                                 </ul>
                             </div>
                         @endif
-
+                        @include('includes.success')
 
                         <form id="registration" action="{{route("user.registration")}}" method="POST">
                             @csrf

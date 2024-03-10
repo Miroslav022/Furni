@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\UserActivityLogger;
 use App\Http\Controllers\User\Controller;
 use App\Models\Category;
 use App\Models\Image;
@@ -15,6 +16,7 @@ use App\Models\ProductSpecification;
 use App\Models\Specification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -117,13 +119,15 @@ class ProductController extends Controller
             }
 
             DB::commit();
+            UserActivityLogger::logActivity(__METHOD__, __CLASS__, "Added new product");
+
             return redirect()->back()->with('success', 'You have successfully added new product');
 
 
         } catch (\Exception $e){
             DB::rollBack();
 
-            dd($e);
+            Log::error($e);
         }
 
 
@@ -201,11 +205,13 @@ class ProductController extends Controller
                 $price->save();
             }
             DB::commit();
+            UserActivityLogger::logActivity(__METHOD__, __CLASS__, "Updated product");
+
             return redirect()->back()->with("success", "Updated successfully");
 
         }catch (\Exception $e){
             DB::rollBack();
-            dd($e);
+            Log::error($e);
         }
     }
 
@@ -218,9 +224,11 @@ class ProductController extends Controller
             $product = Product::find($id);
             $product->is_deleted = 1;
             $product->save();
+            UserActivityLogger::logActivity(__METHOD__, __CLASS__, "Deleted product");
+
             return redirect()->back()->with('success', 'You have successfully deleted product');
         }catch (\Exception $e){
-            dd($e);
+            Log::error($e);
         }
     }
 }

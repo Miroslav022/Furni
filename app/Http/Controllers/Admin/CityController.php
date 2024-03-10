@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\UserActivityLogger;
 use App\Http\Controllers\User\Controller;
 use App\Models\City;
 use App\Models\Country;
@@ -38,6 +39,8 @@ class CityController extends Controller
             $newCity->city = $request->input('city');
             $newCity->country_id = $request->input('country');
             $newCity->save();
+            UserActivityLogger::logActivity(__METHOD__, __CLASS__, "Add new city");
+
             return redirect()->back()->with("success", "You have successfully added new city");
         }catch (Exception){
             return redirect()->back()->with("error", "Something is wrong");
@@ -72,6 +75,8 @@ class CityController extends Controller
             $cityToEdit->city=$request->input('city');
             $cityToEdit->country_id=$request->input('country');
             $cityToEdit->save();
+            UserActivityLogger::logActivity(__METHOD__, __CLASS__, "Updated city");
+
             return redirect()->back()->with('success', "Updated successfully");
         } catch (\Exception){
             return redirect()->back()->with('error', "Something is wrong");
@@ -87,6 +92,8 @@ class CityController extends Controller
             $city = City::find($id);
             $city->is_deleted = 1;
             $city->save();
+            UserActivityLogger::logActivity(__METHOD__, __CLASS__, "Deleted city");
+
             return redirect()->back()->with('success', 'You have successfully deleted city');
         }catch (\Exception $e){
             dd($e);

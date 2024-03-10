@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\UserActivityLogger;
 use App\Http\Controllers\User\Controller;
 use App\Models\Specification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Mockery\Exception;
 
 class SpecificationController extends Controller
@@ -35,8 +37,11 @@ class SpecificationController extends Controller
             $newSpecification = new Specification();
             $newSpecification->specification= $request->input('specification');
             $newSpecification->save();
+            UserActivityLogger::logActivity(__METHOD__, __CLASS__, "Added new specification");
+
             return redirect()->back()->with('success', 'You have successfully added new specification');
         }catch (Exception){
+            Log::error($e);
             return redirect()->back()->with('error', 'Something is wrong.');
         }
     }
@@ -67,8 +72,11 @@ class SpecificationController extends Controller
             $specificationToEdit = Specification::find($id);
             $specificationToEdit->specification = $request->input('specification');
             $specificationToEdit->save();
+            UserActivityLogger::logActivity(__METHOD__, __CLASS__, "Updated specification");
+
             return redirect()->back()->with('success', "Updated successfully");
-        } catch (Exception){
+        } catch (Exception $e){
+            Log::error($e);
             return redirect()->back()->with('error', "Something is wrong");
         }
     }
@@ -82,9 +90,11 @@ class SpecificationController extends Controller
             $specification = Specification::find($id);
             $specification->is_deleted = 1;
             $specification->save();
+            UserActivityLogger::logActivity(__METHOD__, __CLASS__, "Deleted specification");
+
             return redirect()->back()->with('success', 'You have successfully deleted specification');
         }catch (\Exception $e){
-            dd($e);
+            Log::error($e);
         }
     }
 }

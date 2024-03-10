@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 
+use App\Helpers\UserActivityLogger;
 use App\Http\Controllers\User\Controller;
 use App\Models\Image;
 use Illuminate\Http\Request;
@@ -66,6 +67,8 @@ class ImageController extends Controller
         try {
             $image = Image::find($id);
             $image->delete();
+            UserActivityLogger::logActivity(__METHOD__, __CLASS__, "Deleted product image");
+
             return response()->json([], 204);
         } catch (Exception $e){
             return response()->json([], 500);

@@ -7,6 +7,10 @@ use App\Http\Controllers\User\Controller;
 class AdminController extends Controller
 {
     public function index(){
-        return view('admin.adminpage');
+        $logFilePath = storage_path('logs\user_activity-2024-03-10.log');
+        $logContents = file_get_contents($logFilePath);
+        $logContents = explode("\n", $logContents);
+//        dd($logContents);
+        return view('admin.adminpage', ['activity'=>$logContents]);
     }
 }

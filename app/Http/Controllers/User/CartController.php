@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Helpers\UserActivityLogger;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Product;
@@ -20,7 +21,7 @@ class CartController extends OsnovniController
 
         if (isset($activeCart)) {
 
-            $cartProductsDB = CartItem::join('products', 'products.id', '=', 'cart_item.product_id')->join('prices', 'prices.id', '=', 'cart_item.price_id')->select('cart_item.*', 'cart_item.id as cart_item_id', 'products.*', 'prices.*')->get();
+            $cartProductsDB = CartItem::join('products', 'products.id', '=', 'cart_item.product_id')->join('prices', 'prices.id', '=', 'cart_item.price_id')->where("cart_id", $activeCart->id)->select('cart_item.*', 'cart_item.id as cart_item_id', 'products.*', 'prices.*')->get();
 //            dd($cartProductsDB);
             $cart = [];
             foreach ($cartProductsDB as $item) {
@@ -70,7 +71,7 @@ class CartController extends OsnovniController
         //Load cart from DB if exists
         if (isset($activeCart)) {
             $cart_id = $activeCart->id;
-            $cartProductsDB = CartItem::join('products', 'products.id', '=', 'cart_item.product_id')->join('prices', 'prices.id', '=', 'cart_item.price_id')->get();
+            $cartProductsDB = CartItem::join('products', 'products.id', '=', 'cart_item.product_id')->join('prices', 'prices.id', '=', 'cart_item.price_id')->where("cart_id",$activeCart->id)->get();
             $cart = [];
             foreach ($cartProductsDB as $item) {
                 $cartItem = new \stdClass();
@@ -128,7 +129,7 @@ class CartController extends OsnovniController
             $newItem->save();
         }
 
-
+        UserActivityLogger::logActivity(__METHOD__, __CLASS__, "added product to cart");
         session()->put('cart', $cart);
         return response()->json([], 200);
 
@@ -160,6 +161,9 @@ class CartController extends OsnovniController
         $itemToUpdate->update([
             'quantity' => $request->input('quantity')
         ]);
+
+        UserActivityLogger::logActivity(__METHOD__, __CLASS__, "updated cart");
+
         return response()->json([], 204);
     }
 
@@ -189,7 +193,7 @@ class CartController extends OsnovniController
             session()->put('cart', $cart);
             $productToDelete = CartItem::where('id', $id)->first();
             $productToDelete->delete();
-
+            UserActivityLogger::logActivity(__METHOD__, __CLASS__, "deleted product from cart");
             return response()->json([], 204);
         }
 

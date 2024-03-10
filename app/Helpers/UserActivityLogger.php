@@ -6,13 +6,14 @@ use Carbon\Carbon;
 
 class UserActivityLogger
 {
-    public static function logActivity($methodName, $className)
+    public static function logActivity($methodName, $className,$message)
     {
-        $user = session()->get('user');
-        $time = Carbon::now();
-        $logMessage = "User {$user->username} called {$methodName} in $className class at {$time}";
+        $user = session()->get('user')->username ?? 'Anon user';
 
-        // Log the activity to a file (you can customize the log channel and file path)
-        \Log::info($logMessage);
+        $time = Carbon::now();
+        $logMessage = "\p{$user},{$message},{$methodName},$className,{$time}";
+
+        \Log::channel('user_activity')->info($logMessage);
     }
+
 }

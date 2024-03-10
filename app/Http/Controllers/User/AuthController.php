@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Helpers\UserActivityLogger;
 use App\Http\Requests\RegistrationRequest;
 use App\Models\Cart;
 use App\Models\CartItem;
@@ -10,6 +11,7 @@ use App\Models\Location;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends OsnovniController
 {
@@ -49,8 +51,12 @@ class AuthController extends OsnovniController
 //        dd($data);
         $user = new User();
         $location = new Location();
+
+
         try {
             DB::beginTransaction();
+
+//            dd($request->input());
 
             $location->city_id = $data['city'];
             $location->address = $data['address'];
@@ -69,11 +75,13 @@ class AuthController extends OsnovniController
 
             DB::commit();
 
+            UserActivityLogger::logActivity(__METHOD__, __CLASS__, "created account");
             return redirect()->route('login')->with('success', 'You have successfully created an account. Please log in!');
 
-        }catch (\Exception $e){
 
+        }catch (\Exception $e){
             DB::rollBack();
+            Log::error($e);
             return redirect()->back()->with('error', 'An error occurred while creating the account. Please try again.');
         }
 
@@ -81,33 +89,39 @@ class AuthController extends OsnovniController
 
     public function loginUser(Request $request){
         $userData = $request->input();
+        try {
+            if($userData['email']===null || $userData['password'] === null) {
+                return redirect()->back()->with("error", "Please populate all fields.");
+            };
 
-        if($userData['email']===null || $userData['password'] === null) {
-            return redirect()->back()->with("error", "Please populate all fields.");
-        };
+            $user = DB::table('users')->where('email', $userData['email'])->first();
+            if(!$user) {
+                return redirect()->back()->with("error", "Wrong credentials.");
+            }
+            if($user->password !== md5($userData['password'])) {
+                return redirect()->back()->with("error", "Wrong credentials.");
+            }
+            $request->session()->put('user',$user);
+            $user->isAdmin = $user->role_id ==1;
 
-        $user = DB::table('users')->where('email', $userData['email'])->first();
-        if(!$user) {
-            return redirect()->back()->with("error", "Wrong credentials.");
-        }
-        if($user->password !== md5($userData['password'])) {
-            return redirect()->back()->with("error", "Wrong credentials.");
-        }
-        $request->session()->put('user',$user);
-        $user->isAdmin = $user->role_id ==1;
+            UserActivityLogger::logActivity(__METHOD__, __CLASS__, "logged in");
 
-        $this->getCart();
-        if($user->isAdmin){
-            return redirect()->route('adminpage');
-        }else{
-            return redirect()->route('home');
+
+            $this->getCart();
+            if($user->isAdmin){
+                return redirect()->route('adminpage');
+            }else{
+                return redirect()->route('home');
+            }
+        }catch (\Exception $e){
+            Log::error($e);
         }
-//        return redirect()->route('home');
 
     }
 
     public function logout(){
         if(session()->has("user")) {
+            UserActivityLogger::logActivity(__METHOD__, __CLASS__, "logged out");
             session()->remove('user');
             session()->remove('cart');
             return redirect()->route('home');

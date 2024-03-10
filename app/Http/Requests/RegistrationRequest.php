@@ -24,8 +24,8 @@ class RegistrationRequest extends FormRequest
         return [
             "first_name" => "required|min:3",
             "last_name" => "required|min:3",
-            "country_id" => "required|unique:countries,id",
-            "city_id" => "required|unique:cities,id",
+            "country" => "required|exists:countries,id",
+            "city" => "required|exists:cities,id",
             "address" => "required|min:3",
             "username" => "required|min:3",
             "email" => "required|email|unique:users,email",
