@@ -12,12 +12,17 @@ use Illuminate\Support\Facades\Log;
 class ProductSpecificationController extends Controller
 {
     public function store(Request $request){
+
+
         $data = $request->input();
         try {
             //delete all specifications
             ProductSpecification::where('product_id',$data['product_id'])->delete();
 
             foreach ($data['specifications'] as $spec){
+                if($spec['id'] || $spec['value']){
+                    return redirect()->back()->with('error', 'Please provide value for specification');
+                }
                 $newProdSpec = new ProductSpecification();
                 $newProdSpec->product_id = $data['product_id'];
                 $newProdSpec->specification_id = $spec['id'];
@@ -29,7 +34,7 @@ class ProductSpecificationController extends Controller
             return redirect()->back()->with('success', 'You have successfully applied new specifications');
         } catch (\Exception $e){
             Log::error($e);
-            return redirect()->back()->with('error', 'Something is wrond');
+            return redirect()->back()->with('error', 'Something is wrong');
 
         }
     }

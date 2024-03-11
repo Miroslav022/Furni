@@ -9,9 +9,9 @@ use Illuminate\Http\Request;
 
 class ProductController extends OsnovniController
 {
-    public function category(){
-        return $this->belongsTo(Category::class);
-    }
+//    public function category(){
+//        return $this->belongsTo(Category::class);
+//    }
 
     /**
      * Display a listing of the resource.

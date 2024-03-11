@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helpers\UserActivityLogger;
 use App\Http\Controllers\User\Controller;
+use App\Http\Requests\SpecificationRequest;
 use App\Models\Specification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -31,7 +32,7 @@ class SpecificationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SpecificationRequest $request)
     {
         try {
             $newSpecification = new Specification();
@@ -66,7 +67,7 @@ class SpecificationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(SpecificationRequest $request, string $id)
     {
         try {
             $specificationToEdit = Specification::find($id);

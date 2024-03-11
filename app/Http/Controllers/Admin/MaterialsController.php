@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Helpers\UserActivityLogger;
 use App\Http\Controllers\User\Controller;
+use App\Http\Requests\MaterialRequest;
 use App\Models\Material;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -31,7 +32,7 @@ class MaterialsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(MaterialRequest $request)
     {
         try {
             $material = new Material();
@@ -66,7 +67,7 @@ class MaterialsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(MaterialRequest $request, string $id)
     {
         try {
             $material = Material::find($id);

@@ -6,6 +6,21 @@
         <div class="row">
             <div class="col-xl-12 order-xl-1">
                 @include('includes.success')
+                @if ($errors->any())
+                    @php $errorsFields = $errors->messages() @endphp
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                @if(session('error'))
+                    <div class="alert alert-danger">
+                        {{session('error')}}
+                    </div>
+                @endif
                 <div class="card bg-secondary shadow">
                     <div class="card-header bg-white border-0">
                         <div class="row align-items-center">
@@ -32,10 +47,12 @@
                                     <div class="col-lg-12">
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-role">Category</label>
+{{--                                                    @php dd($product->category->id) @endphp--}}
                                             <select class="form-control" name="category">
                                                 {{--                                                <option value="0">Select category</option>--}}
                                                 @foreach($categories as $category)
-                                                    <option value="{{$category->id}}" {{$product->category->id === $category->id ? 'checked' : ''}}>{{$category->category}}</option>
+
+                                                    <option value="{{$category->id}}" {{$product->category->id === $category->id ? 'selected' : ''}}>{{$category->category}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -86,7 +103,7 @@
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="form-group ">
-                                            <button class="btn btn-success ml-auto d-block">Edit product</button>
+                                            <button class="btn btn-success w-100">Edit product</button>
                                         </div>
                                     </div>
                                 </div>
@@ -112,7 +129,7 @@
                                                     <label class="form-control-label" for="input-role">Warehouse location</label>
                                                     <select class="form-control" name="inventory" id="inventory">
                                                         @foreach($inventories as $inventory)
-                                                            <option value="{{$inventory->id}}">{{$inventory->location->address}}</option>
+                                                            <option value="{{$inventory->id}}">{{$inventory->location->address}}-{{$inventory->location->city->city}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -121,35 +138,55 @@
                                                 </div>
                                             </div>
                                             <div class="prepareToAdd">
-
+                                                <div class="inventory">
+                                                    {{--                                        @php dd($product->inventories) @endphp--}}
+                                                    @if(count($product->inventories)>0)
+                                                        @foreach($product->inventories as $inventory)
+                                                            {{--                                            @php dd($product->inventories) @endphp--}}
+                                                            <div class="col-lg-12 d-flex align-items-center each-inventory inventory">
+                                                                <div class="form-group">
+                                                                    <label class="form-control-label" for="qty">{{$inventory->location->address}} - <b>Quantity</b></label>
+                                                                    <input type="text" name="quantity" id="qty"
+                                                                           class="form-control form-control-alternative" value="{{$inventory->pivot->quantity}}">
+                                                                    <input type="hidden" value="{{$inventory->pivot->inventory_id}}" class="inventory_id"/>
+                                                                </div>
+                                                                <button class="btn btn-danger btn-lg ml-2 remove-inventory" data-id="{{$inventory->pivot->id}}">Delete</button>
+                                                            </div>
+                                                        @endforeach
+                                                    @else
+                                                        <div class="alert alert-danger" role="alert">
+                                                            There isn't anything to show! Add warehouse location and insert quantity
+                                                        </div>
+                                                    @endif
+                                                </div>
                                             </div>
-{{--                                            <button class="btn btn-success btn-lg ml-auto d-block add-inventory">Add warehouse</button>--}}
+                                            <button class="btn btn-success btn-lg ml-auto d-block add-inventory">Apply changes</button>
                                             <div class="addWarehouses-warpper col-12"></div>
                                         </div>
                                         <hr class="my-4" />
 
                                     </div>
-                                    <div class="inventory">
+{{--                                    <div class="inventory">--}}
 {{--                                        @php dd($product->inventories) @endphp--}}
-                                        @if(count($product->inventories)>0)
-                                        @foreach($product->inventories as $inventory)
+{{--                                        @if(count($product->inventories)>0)--}}
+{{--                                        @foreach($product->inventories as $inventory)--}}
 {{--                                            @php dd($product->inventories) @endphp--}}
-                                            <div class="col-lg-12 d-flex align-items-center each-inventory inventory">
-                                                <div class="form-group">
-                                                    <label class="form-control-label" for="qty">{{$inventory->location->address}} - <b>Quantity</b></label>
-                                                    <input type="text" name="quantity" id="qty"
-                                                           class="form-control form-control-alternative" value="{{$inventory->pivot->quantity}}">
-                                                    <input type="hidden" value="{{$inventory->pivot->inventory_id}}" class="inventory_id"/>
-                                                </div>
-                                                <button class="btn btn-danger btn-lg ml-2 remove-inventory" data-id="{{$inventory->pivot->id}}">Delete</button>
-                                            </div>
-                                        @endforeach
-                                        @else
-                                            <div class="alert alert-danger" role="alert">
-                                                There isn't anything to show! Add warehouse location and insert quantity
-                                            </div>
-                                        @endif
-                                    </div>
+{{--                                            <div class="col-lg-12 d-flex align-items-center each-inventory inventory">--}}
+{{--                                                <div class="form-group">--}}
+{{--                                                    <label class="form-control-label" for="qty">{{$inventory->location->address}} - <b>Quantity</b></label>--}}
+{{--                                                    <input type="text" name="quantity" id="qty"--}}
+{{--                                                           class="form-control form-control-alternative" value="{{$inventory->pivot->quantity}}">--}}
+{{--                                                    <input type="hidden" value="{{$inventory->pivot->inventory_id}}" class="inventory_id"/>--}}
+{{--                                                </div>--}}
+{{--                                                <button class="btn btn-danger btn-lg ml-2 remove-inventory" data-id="{{$inventory->pivot->id}}">Delete</button>--}}
+{{--                                            </div>--}}
+{{--                                        @endforeach--}}
+{{--                                        @else--}}
+{{--                                            <div class="alert alert-danger" role="alert">--}}
+{{--                                                There isn't anything to show! Add warehouse location and insert quantity--}}
+{{--                                            </div>--}}
+{{--                                        @endif--}}
+{{--                                    </div>--}}
 
 
                                 </div>
@@ -222,7 +259,8 @@
                                                     <div class="form-group">
                                                         <div class="row align-items-end">
                                                             <div class="col-4">
-                                                                <label for="exampleInputEmail1">{{$spec->pivot->specification}}</label>
+{{--                                                                @php dd() @endphp--}}
+                                                                <label for="exampleInputEmail1">{{$spec->specification}}</label>
                                                                 <input type="text" class="form-control" name="specifications[{{$spec->pivot->specification_id}}][value]" value="{{$spec->pivot->value}}" id="exampleInputEmail1">
                                                                 <input type="hidden" class="form-control" name="specifications[{{$spec->pivot->specification_id}}][id]" value="{{$spec->pivot->specification_id}}" id="exampleInputEmail1">
                                                             </div>

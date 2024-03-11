@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helpers\UserActivityLogger;
 use App\Http\Controllers\User\Controller;
+use App\Http\Requests\TestimonialRequest;
 use App\Models\Testimonial;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -33,7 +34,7 @@ class TestimonialsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(TestimonialRequest $request)
     {
         try {
             $testimonial = new Testimonial();
@@ -71,7 +72,7 @@ class TestimonialsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(TestimonialRequest $request, string $id)
     {
         try {
             $testimonial = Testimonial::find($id);

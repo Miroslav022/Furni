@@ -26,7 +26,11 @@ $name = Route::currentRouteName();
                     <li><a class="nav-link" href="{{route('login')}}"><img src="{{asset('images/user.svg')}}"></a></li>
                 @else
                     @php $user = session()->get('user') @endphp
-                    <li><a class="nav-link text-light" href="{{route('home')}}">Hi {{$user->username}}</a></li>
+                    @if($user->role_id===1)
+                        <li><a class="nav-link text-light font-weight-bold" href="{{route('adminpage')}}">Adminpanel</a></li>
+                    @endif
+                    <li><a class="nav-link text-light" href="{{route('home')}}">Edit account</a></li>
+                    <li><a class="nav-link text-light" href="{{route('orders')}}">My orders</a></li>
                     <li><a class="nav-link text-light" href="{{route('logout')}}">Logout</a></li>
                     <li><a class="nav-link" href="{{route('cart.index')}}"><img src="{{asset('images/cart.svg')}}"></a></li>
                 @endif

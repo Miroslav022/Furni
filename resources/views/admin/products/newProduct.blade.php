@@ -6,6 +6,16 @@
         <div class="row">
             <div class="col-xl-12 order-xl-1">
                 @include('includes.success')
+                @if ($errors->any())
+                    @php $errorsFields = $errors->messages() @endphp
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <div class="card bg-secondary shadow">
                     <div class="card-header bg-white border-0">
                         <div class="row align-items-center">
@@ -24,16 +34,16 @@
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-first_name">Product name</label>
                                             <input type="text" name="product_name" id="input-username"
-                                                   class="form-control form-control-alternative" placeholder="Stefan">
+                                                   class="form-control form-control-alternative" placeholder="product name" value="{{old('product_name')}}">
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-role">Category</label>
-                                            <select class="form-control" name="category">
+                                            <select class="form-control" name="category" >
 {{--                                                <option value="0">Select category</option>--}}
                                                 @foreach($categories as $category)
-                                                    <option value="{{$category->id}}">{{$category->category}}</option>
+                                                    <option value="{{$category->id}}" {{old('category')===$category->id ? 'selected' : ''}}>{{$category->category}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -44,7 +54,7 @@
                                             <select class="form-control" name="inventory" id="exampleFormControlSelect1">
                                                 <option value="0">Select store location</option>
                                                 @foreach($inventories as $inventory)
-                                                    <option value="{{$inventory->id}}">{{$inventory->location->address}}</option>
+                                                    <option value="{{$inventory->id}}" {{old('inventory')===$inventory->id ? 'selected' : ''}}>{{$inventory->location->address}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -53,14 +63,14 @@
                                         <div class="form-group">
                                             <label class="form-control-label" for="qty">Quantity</label>
                                             <input type="text" name="quantity" id="qty"
-                                                   class="form-control form-control-alternative" placeholder="50">
+                                                   class="form-control form-control-alternative" placeholder="50" value="{{old('quantity')}}">
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="form-group">
                                             <label class="form-control-label" for="price">Price</label>
                                             <input type="text" name="price" id="price"
-                                                   class="form-control form-control-alternative" placeholder="$200">
+                                                   class="form-control form-control-alternative" placeholder="$200" value="{{old('price')}}">
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
@@ -79,7 +89,7 @@
                                     <div class="col-lg-12">
                                         <div class="form-group">
                                             <label for="exampleFormControlTextarea1">Description</label>
-                                            <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                            <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3">{{old('description')}}</textarea>
                                         </div>
                                     </div>
 

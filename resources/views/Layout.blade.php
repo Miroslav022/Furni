@@ -37,6 +37,15 @@
             }
         });
     });</script>
+<script>
+    $(function (){
+        $.ajaxSetup({
+            headers:{
+                "X-CSRF-Token":$('meta[name="_token"]').attr('content')
+            }
+        })
+    })
+</script>
 <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script src="{{asset('js/toast.js')}}"></script>

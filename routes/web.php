@@ -17,7 +17,7 @@ Route::get('/', [\App\Http\Controllers\User\FrontendController::class, 'home'])-
 Route::get('/notFound', [\App\Http\Controllers\User\FrontendController::class, 'notFound'])->name('not-found');
 Route::get("/shop", [\App\Http\Controllers\User\FrontendController::class, 'shop'])->name('shop');
 Route::get('/about', [\App\Http\Controllers\User\FrontendController::class, 'about'])->name('about');
-Route::get('/services', [\App\Http\Controllers\User\FrontendController::class, 'services'])->name('services');
+Route::get('/orders', [\App\Http\Controllers\User\FrontendController::class, 'orders'])->name('orders');
 Route::get('/contact', [\App\Http\Controllers\User\FrontendController::class, 'contact'])->name('contact');
 Route::get('/products/{product}', [\App\Http\Controllers\User\ProductController::class, 'show'])->name('product.show');
 Route::get("/city/{id}",[\App\Http\Controllers\User\CityController::class, 'cities']);

@@ -1,60 +1,3 @@
-{{--@extends("Layout")--}}
-
-{{--@section("content")--}}
-
-{{--    <!-- Start Hero Section -->--}}
-{{--    <div class="hero">--}}
-{{--        <div class="container">--}}
-{{--            <div class="row justify-content-between">--}}
-{{--                <div class="col-lg-5">--}}
-{{--                    <div class="intro-excerpt">--}}
-{{--                        <h1>Shop</h1>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--                <div class="col-lg-7">--}}
-
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--    <!-- End Hero Section -->--}}
-
-
-
-{{--    <div class="untree_co-section product-section before-footer-section">--}}
-{{--        <div class="container">--}}
-{{--            <div class="row">--}}
-{{--                <div class="col-2">--}}
-{{--                    //Here goes chatGPT CODE--}}
-{{--                </div>--}}
-{{--                <div class="col-10">--}}
-{{--                    <div class="row">--}}
-{{--                        @foreach($products as $product)--}}
-{{--                            @include("users.partials.productCard")--}}
-{{--                        @endforeach--}}
-{{--                    </div>--}}
-
-{{--                </div>--}}
-
-
-
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-
-{{--    <div class="container">--}}
-{{--        <div class="pagination">--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--    <div class="container ct-pagination">--}}
-{{--        {{$products->links()}}--}}
-{{--    </div>--}}
-
-
-
-{{--@endsection--}}
-
-
 @extends("Layout")
 
 @section("content")
@@ -100,16 +43,28 @@
                                 </div>
                             @endforeach
                         </div>
+                        <button type="submit" class="btn btn-primary mt-3">Apply Filters</button>
 
+{{--                        <div class="form-group mt-5">--}}
+{{--                            <h4>Filter by Specification</h4>--}}
+{{--                            @foreach($specifications as $spec)--}}
+{{--                                <div class="form-check">--}}
+{{--                                    <input class="form-check-input" type="checkbox" name="specifications[]" {{in_array($spec->id, $checkedSpec ?? []) ? 'checked=true' : ''}} value="{{ $spec->id }}">--}}
+{{--                                    <label class="form-check-label">{{ $spec->specification }}</label>--}}
+{{--                                </div>--}}
+{{--                            @endforeach--}}
+{{--                        </div>--}}
                         <div class="form-group mt-5">
-                            <h4>Filter by Specification</h4>
-                            @foreach($specifications as $spec)
+                            <h4>Filter by Material</h4>
+                            @foreach($materials as $material)
+{{--                            @php dd(in_array($material->id, $checkedMaterials ?? [])) @endphp--}}
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="specifications[]" {{in_array($spec->id, $checkedSpec ?? []) ? 'checked=true' : ''}} value="{{ $spec->id }}">
-                                    <label class="form-check-label">{{ $spec->specification }}</label>
+                                    <input class="form-check-input" type="checkbox" name="materials[]" {{in_array($material->id, $checkedMaterials ?? []) ? 'checked' : ''}} value="{{ $material->id }}">
+                                    <label class="form-check-label">{{ $material->material }}</label>
                                 </div>
                             @endforeach
                         </div>
+                        <button type="submit" class="btn btn-primary mt-3">Apply Filters</button>
 
                         <div class="form-group mt-5">
                             <h4>Sort</h4>

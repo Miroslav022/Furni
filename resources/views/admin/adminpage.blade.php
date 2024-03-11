@@ -27,9 +27,9 @@
                             <tbody>
                             @if(!empty($activity) && is_array($activity))
                             @php $index = 1;
-                            $numebrOfElements = count($activity)-1;
+                            $numebrOfElements = count($activity)-2;
                             @endphp
-                            @for($i =0; $i<$numebrOfElements; $i++)
+                            @for($i =$numebrOfElements; $i>=0; $i--)
                                 @php
                                     $logParts = explode('\p', $activity[$i]);
                                     $logPartsToPrint = $logParts[1] ;

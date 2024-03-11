@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Helpers\UserActivityLogger;
 use App\Http\Controllers\User\Controller;
+use App\Http\Requests\InventoryRequest;
 use App\Models\City;
 use App\Models\Country;
 use App\Models\Inventory;
@@ -38,7 +39,7 @@ class InventoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(InventoryRequest $request)
     {
         try {
             DB::beginTransaction();
@@ -86,7 +87,7 @@ class InventoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(InventoryRequest $request, string $id)
     {
         try {
             $location = Location::find($id);

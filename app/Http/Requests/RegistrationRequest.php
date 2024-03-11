@@ -26,10 +26,10 @@ class RegistrationRequest extends FormRequest
             "last_name" => "required|min:3",
             "country" => "required|exists:countries,id",
             "city" => "required|exists:cities,id",
-            "address" => "required|min:3",
+            "address" => "min:3",
             "username" => "required|min:3",
-            "email" => "required|email|unique:users,email",
-            "password" => "required|min:8|regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/",
+            "email" => "required|email",
+            "password" => "nullable|min:8|regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/",
         ];
     }
 

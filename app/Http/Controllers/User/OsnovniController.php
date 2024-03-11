@@ -22,14 +22,6 @@ class OsnovniController extends Controller
                 'route' => 'about'
             ],
             [
-                "name" => "Services",
-                'route' => 'services'
-            ],
-//            [
-//                "name" => "Blog",
-//                'route' => 'blog'
-//            ],
-            [
                 "name" => "Contact",
                 'route' => 'contact'
             ],

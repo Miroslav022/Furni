@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helpers\UserActivityLogger;
 use App\Http\Controllers\User\Controller;
+use App\Http\Requests\ProductRequest;
 use App\Models\Category;
 use App\Models\Image;
 use App\Models\Inventory;
@@ -17,6 +18,7 @@ use App\Models\Specification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rules\File;
 
 class ProductController extends Controller
 {
@@ -54,7 +56,7 @@ class ProductController extends Controller
 
             $fileName = uniqid() . "_" . time() . "." . $bg_img->extension();
 
-            $bg_img->storeAs("public/products", $fileName);
+            $bg_img->move("products", $fileName);
 
             $dataForProductsTable = [];
             $dataForProductsTable['product_name'] = $data['product_name'];
@@ -76,7 +78,7 @@ class ProductController extends Controller
             $sources = [];
             foreach ($images as $image){
                 $imgName = uniqid() . "_" . time() . "_" . $image->extension();
-                $image->store("public/products", $imgName);
+                $image->move("products", $imgName);
                 $sources[] = [
                     'src'=>$imgName,
                     'product_id'=>$product_id,
@@ -126,7 +128,6 @@ class ProductController extends Controller
 
         } catch (\Exception $e){
             DB::rollBack();
-
             Log::error($e);
         }
 
@@ -169,6 +170,12 @@ class ProductController extends Controller
 
             //bg image handling
             if($request->file('bg_image')){
+                $request->validate([
+                     'bg_image' => [
+                    'required',
+                    File::types(['jpg', 'jpeg', 'png', 'webp'])
+
+                ]]);
                 $bg_img = $request->file("bg_image");
                 $fileName = uniqid() . "_" . time() . "." . $bg_img->extension();
                 $bg_img->move("products", $fileName);
@@ -176,13 +183,25 @@ class ProductController extends Controller
 
 
             DB::beginTransaction();
+            $request->validate([
+                "product_name" => 'required|min:3',
+                'category'=>"required|exists:categories,id",
+                'description'=>"required"
+                ]);
+//            dd($request->input('category'));
             $product->product_name = $request->input('product_name') ?? $product->product_name;
-            $product->category_id = $request->input('category_id') ?? $product->category_id;
+            $product->category_id = $request->input('category') ?? $product->category_id;
             $product->description = $request->input('description') ?? $product->description;
             $product->bg_image = $fileName ?? $product->bg_image;
             $product->save();
 
             if($request->file('images')){
+                $request->validate([
+                    'images.*' => [
+                        'required',
+                        File::types(['jpg', 'jpeg', 'png', 'webp'])
+
+                    ]]);
                 foreach ($request->file('images') as $image) {
                     $imgName = uniqid() . "_" . time() . "_" . $image->extension();
                     $image->move("products", $imgName);
@@ -198,11 +217,17 @@ class ProductController extends Controller
             }
 
             if($request->input('price') && $request->input('price')!==$product->prices->first()->price){
+                $request->validate([
+                    "price" => 'required|numeric',
+                ]);
+                Price::where('product_id', $id)->update(['is_active' => 0]);
+
                 $price = new Price();
                 $price->price = $request->input('price');
                 $price->product_id = $id;
                 $price->is_active = 1;
                 $price->save();
+
             }
             DB::commit();
             UserActivityLogger::logActivity(__METHOD__, __CLASS__, "Updated product");
@@ -211,6 +236,8 @@ class ProductController extends Controller
 
         }catch (\Exception $e){
             DB::rollBack();
+            return redirect()->back()->with('error', $e->getMessage());
+
             Log::error($e);
         }
     }

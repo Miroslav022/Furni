@@ -6,6 +6,16 @@
         <div class="row">
             <div class="col-xl-12 order-xl-1">
                 @include('includes.success')
+                @if ($errors->any())
+                    @php $errorsFields = $errors->messages() @endphp
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <div class="card bg-secondary shadow">
                     <div class="card-header bg-white border-0">
                         <div class="row align-items-center">
@@ -23,7 +33,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-address">Address</label>
-                                            <input id="input-address" name="address" class="form-control form-control-alternative" placeholder="Address" type="text">
+                                            <input id="input-address" name="address" class="form-control form-control-alternative" placeholder="Address" type="text" value="{{old('address')}}">
                                         </div>
                                     </div>
                                 </div>

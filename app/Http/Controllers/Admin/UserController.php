@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helpers\UserActivityLogger;
 use App\Http\Controllers\User\Controller;
+use App\Http\Requests\RegistrationRequest;
 use App\Models\City;
 use App\Models\Country;
 use App\Models\Location;
@@ -36,7 +37,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(RegistrationRequest $request)
     {
         $data = $request->input();
         try {
@@ -96,7 +97,7 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(RegistrationRequest $request, string $id)
     {
         $data = $request->input();
         $user = User::find($id);

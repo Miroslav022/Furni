@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helpers\UserActivityLogger;
 use App\Http\Controllers\User\Controller;
+use App\Http\Requests\CityRequest;
 use App\Models\City;
 use App\Models\Country;
 use Illuminate\Http\Request;
@@ -32,7 +33,7 @@ class CityController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CityRequest $request)
     {
         try {
             $newCity = new City();
@@ -68,7 +69,7 @@ class CityController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CityRequest $request, string $id)
     {
         try {
             $cityToEdit = City::find($id);

@@ -7,7 +7,7 @@ let is_added_warehouse = false
 
 addBtn.addEventListener('click',e=>{
     e.preventDefault();
-    if(!is_added_warehouse) $('.addWarehouses-warpper').html(' <button class="btn btn-success btn-lg ml-auto d-block add-inventory">Add warehouse</button>')
+    // if(!is_added_warehouse) $('.addWarehouses-warpper').html(' <button class="btn btn-success btn-lg ml-auto d-block add-inventory">Add warehouse</button>')
     is_added_warehouse = true;
     const inventory_id = inventory.value;
     const address = inventory.options[inventory.selectedIndex].textContent;

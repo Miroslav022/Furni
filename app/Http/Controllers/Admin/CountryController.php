@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helpers\UserActivityLogger;
 use App\Http\Controllers\User\Controller;
+use App\Http\Requests\CategoryRequest;
+use App\Http\Requests\CountryRequest;
 use App\Models\Country;
 use Illuminate\Http\Request;
 use Mockery\Exception;
@@ -30,7 +32,7 @@ class CountryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CountryRequest $request)
     {
         try {
             $newCountry = new Country();
@@ -57,7 +59,7 @@ class CountryController extends Controller
      */
     public function edit(string $id)
     {
-        $country = Country::find($id)->first();
+        $country = Country::find($id);
         return view('admin.countries.editCountry', ['country'=>$country]);
 
     }
@@ -65,7 +67,7 @@ class CountryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CountryRequest $request, string $id)
     {
         try {
             $country = Country::find($id);

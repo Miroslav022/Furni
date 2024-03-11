@@ -24,6 +24,7 @@
                             </tr>
                             </thead>
                             <tbody>
+{{--                            @php dd($products) @endphp--}}
                             @foreach($products as $index=>$product)
                                 <tr>
                                     <td>
