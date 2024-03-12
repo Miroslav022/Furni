@@ -145,22 +145,25 @@
                             <div class="col-md-12 course-details-content">
                                 <div class="course-details-card mt--40">
                                     <div class="course-content" data-product="66">
-                                        <div class="row">
-                                            <div class="report"></div>
-                                            <h5 class="mb--25">Write review</h5>
-                                            <form id="rewiew-form">
-                                                <div class="mb-3">
-                                                    <label for="title" class="form-label">Title</label>
-                                                    <input type="text" name="title" class="form-control" id="title" placeholder="Title">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="message" class="form-label">Rewiew</label>
-                                                    <textarea class="form-control" name="message" id="message" rows="3" data-gramm="false" wt-ignore-input="true"></textarea>
-                                                </div>
-                                                <input type="hidden" name="product_id" value="{{$product->id}}"/>
-                                                <button type="submit" class="btn btn-success" data-id="18" id="sendRewies">Send review</button>
-                                            </form>
-                                        </div>
+                                        @if(session()->has('user'))
+                                            <div class="row">
+                                                <div class="report"></div>
+                                                <h5 class="mb--25">Write review</h5>
+                                                <form id="rewiew-form">
+                                                    <div class="mb-3">
+                                                        <label for="title" class="form-label">Title</label>
+                                                        <input type="text" name="title" class="form-control" id="title" placeholder="Title">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="message" class="form-label">Rewiew</label>
+                                                        <textarea class="form-control" name="message" id="message" rows="3" data-gramm="false" wt-ignore-input="true"></textarea>
+                                                    </div>
+                                                    <input type="hidden" name="product_id" value="{{$product->id}}"/>
+                                                    <button type="submit" class="btn btn-success" data-id="18" id="sendRewies">Send review</button>
+                                                </form>
+                                            </div>
+
+                                        @endif
                                         <div class="comment-wrapper pt--40 reviews-block">
                                             @foreach($product->recensions as $recension)
                                                 <div class=" mt-3 d-flex justify-content-between align-items-center recension">

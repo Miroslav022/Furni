@@ -117,6 +117,7 @@ function fetchCart() {
         }
     })
 }
+
 function printCart(products) {
     let html = ``
     products.forEach(product => {
@@ -124,7 +125,7 @@ function printCart(products) {
         html += `
             <tr class="item">
                 <td class="product-thumbnail">
-                    <img src="images/${product.product.bg_image}" alt="Image" class="img-fluid">
+                    <img src="products/${product.product.bg_image}" alt="Image" class="img-fluid">
                 </td>
                 <td class="product-name">
                     <h2 class="h5 text-black">${product.product.product_name}</h2>

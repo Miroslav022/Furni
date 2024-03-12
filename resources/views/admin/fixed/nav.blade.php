@@ -5,7 +5,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <!-- Brand -->
-        <a class="navbar-brand pt-0" href="./index.html">
+        <a class="navbar-brand pt-0" href="{{asset('adminpage')}}">
             <img src="{{asset('img/brand/blue.png')}}" class="navbar-brand-img" alt="...">
         </a>
         <!-- User -->
@@ -64,7 +64,7 @@
             <div class="navbar-collapse-header d-md-none">
                 <div class="row">
                     <div class="col-6 collapse-brand">
-                        <a href="./index.html">
+                        <a href="{{route("adminpage")}}">
                             <img src="./assets/img/brand/blue.png">
                         </a>
                     </div>
@@ -90,7 +90,7 @@
             <!-- Navigation -->
             <ul class="navbar-nav">
                 <li class="nav-item  active ">
-                    <a class="nav-link  active " href="./index.html">
+                    <a class="nav-link  active " href="{{route("adminpage")}}">
                         <i class="ni ni-tv-2 text-primary"></i> Dashboard
                     </a>
                 </li>
@@ -107,6 +107,16 @@
                 <li class="nav-item">
                     <a class="nav-link " href="{{route('testimonials.index')}}">
                         <i class="ni ni-bullet-list-67 text-red"></i> Testimonials
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="{{route('status.index')}}">
+                        <i class="ni ni-bullet-list-67 text-red"></i> Statuses
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="{{route('orders.index')}}">
+                        <i class="ni ni-bullet-list-67 text-red"></i> Orders
                     </a>
                 </li>
                 <li class="nav-item">

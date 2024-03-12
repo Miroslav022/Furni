@@ -51,6 +51,7 @@ class OrderController extends OsnovniController
             $order = new Order();
             $order->user_id = session()->get('user')->id;
             $order->location_id = session()->get('user')->location_id;
+            $order->status_id = 1;
             $order->total = $totalPrice;
             $order->save();
 
@@ -77,7 +78,7 @@ class OrderController extends OsnovniController
             session()->remove('cart');
             DB::commit();
             UserActivityLogger::logActivity(__METHOD__, __CLASS__, "make order");
-            return redirect()->route('login')->with('success', 'You have successfully created order!');
+            return redirect()->route('orders')->with('success', 'You have successfully created order!');
 
 
         } catch (\Exception $e){

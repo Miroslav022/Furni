@@ -17,15 +17,21 @@ Route::get('/', [\App\Http\Controllers\User\FrontendController::class, 'home'])-
 Route::get('/notFound', [\App\Http\Controllers\User\FrontendController::class, 'notFound'])->name('not-found');
 Route::get("/shop", [\App\Http\Controllers\User\FrontendController::class, 'shop'])->name('shop');
 Route::get('/about', [\App\Http\Controllers\User\FrontendController::class, 'about'])->name('about');
-Route::get('/orders', [\App\Http\Controllers\User\FrontendController::class, 'orders'])->name('orders');
 Route::get('/contact', [\App\Http\Controllers\User\FrontendController::class, 'contact'])->name('contact');
 Route::get('/products/{product}', [\App\Http\Controllers\User\ProductController::class, 'show'])->name('product.show');
 Route::get("/city/{id}",[\App\Http\Controllers\User\CityController::class, 'cities']);
 
-Route::resource('/cart', \App\Http\Controllers\User\CartController::class);
-Route::resource('/recensions', \App\Http\Controllers\User\RecensionsController::class);
-Route::resource('/order', \App\Http\Controllers\User\OrderController::class);
-Route::post('/order/location', [\App\Http\Controllers\User\OrderController::class, 'changeLocation'])->name("order.location");
+//midleware
+Route::middleware(['user'])->group(function (){
+    Route::get('/editaccout', [\App\Http\Controllers\User\FrontendController::class, 'editUserForm'])->name('edit');
+    Route::patch('/edit/{id}', [\App\Http\Controllers\User\FrontendController::class, 'editUser'])->name('edit.user');
+    Route::get('/orders', [\App\Http\Controllers\User\FrontendController::class, 'orders'])->name('orders');
+    Route::resource('/cart', \App\Http\Controllers\User\CartController::class);
+    Route::resource('/recensions', \App\Http\Controllers\User\RecensionsController::class);
+    Route::resource('/order', \App\Http\Controllers\User\OrderController::class);
+    Route::post('/order/location', [\App\Http\Controllers\User\OrderController::class, 'changeLocation'])->name("order.location");
+});
+
 
 
 Route::prefix('admin')->group(function () {
@@ -34,6 +40,8 @@ Route::prefix('admin')->group(function () {
 
         Route::resource('/categories',\App\Http\Controllers\Admin\CategoryController::class);
         Route::resource('/countries',\App\Http\Controllers\Admin\CountryController::class);
+        Route::resource('/status',\App\Http\Controllers\Admin\StatusController::class);
+        Route::resource('/orders',\App\Http\Controllers\Admin\OrdersController::class);
         Route::resource('/cities',\App\Http\Controllers\Admin\CityController::class);
         Route::resource('/roles',\App\Http\Controllers\Admin\RoleController::class);
         Route::resource('/products',\App\Http\Controllers\Admin\ProductController::class);

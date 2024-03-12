@@ -31,7 +31,7 @@
                         <div class="form-group">
                             <h4>Search</h4>
                             <input class="form-control" name="search" value="{{$search}}" type="search"/>
-                            <button type="submit" class="btn btn-primary mt-3">Search</button>
+{{--                            <button type="submit" class="btn btn-primary mt-3">Search</button>--}}
                         </div>
 
                         <div class="form-group mt-5">
@@ -43,7 +43,7 @@
                                 </div>
                             @endforeach
                         </div>
-                        <button type="submit" class="btn btn-primary mt-3">Apply Filters</button>
+{{--                        <button type="submit" class="btn btn-primary mt-3">Apply Filters</button>--}}
 
 {{--                        <div class="form-group mt-5">--}}
 {{--                            <h4>Filter by Specification</h4>--}}
@@ -64,7 +64,7 @@
                                 </div>
                             @endforeach
                         </div>
-                        <button type="submit" class="btn btn-primary mt-3">Apply Filters</button>
+                        <button type="submit" class="btn btn-primary mt-3 apply">Apply Filters</button>
 
                         <div class="form-group mt-5">
                             <h4>Sort</h4>
@@ -79,7 +79,7 @@
                         </div>
 
 
-                        <button type="submit" class="btn btn-primary mt-3">Apply Filters</button>
+                        <button type="submit" class="btn btn-primary mt-3 ">Apply Filters</button>
                     </form>
                 </div>
 

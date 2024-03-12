@@ -29,7 +29,7 @@ $name = Route::currentRouteName();
                     @if($user->role_id===1)
                         <li><a class="nav-link text-light font-weight-bold" href="{{route('adminpage')}}">Adminpanel</a></li>
                     @endif
-                    <li><a class="nav-link text-light" href="{{route('home')}}">Edit account</a></li>
+                    <li><a class="nav-link text-light" href="{{route('edit')}}">Edit account</a></li>
                     <li><a class="nav-link text-light" href="{{route('orders')}}">My orders</a></li>
                     <li><a class="nav-link text-light" href="{{route('logout')}}">Logout</a></li>
                     <li><a class="nav-link" href="{{route('cart.index')}}"><img src="{{asset('images/cart.svg')}}"></a></li>
