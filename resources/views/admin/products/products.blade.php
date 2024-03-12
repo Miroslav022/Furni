@@ -8,7 +8,7 @@
                 @include('includes.success')
                 <div class="card shadow">
                     <div class="card-header border-0">
-                        <h3 class="mb-0">Card tables</h3>
+                        <h3 class="mb-0">Product tables</h3>
                     </div>
                     <div class="card-header"><a href="{{route('products.create')}}" class="btn btn-primary text-white">Add product</a></div>
                     <div class="table-responsive">

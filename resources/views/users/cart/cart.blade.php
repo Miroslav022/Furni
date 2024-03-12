@@ -56,28 +56,7 @@
 
             @if(!empty(session()->get('cart')))
                 <div class="row coupon-container">
-                    <div class="col-md-6">
-                        <div class="row mb-5">
-                            <div class="col-md-6 mb-3 mb-md-0">
-                                <button class="btn btn-black btn-sm btn-block">Update Cart</button>
-                            </div>
-                            <div class="col-md-6">
-                                <a class="btn btn-outline-black btn-sm btn-block" href="{{route('shop')}}">Continue Shopping</a>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <label class="text-black h4" for="coupon">Coupon</label>
-                                <p>Enter your coupon code if you have one.</p>
-                            </div>
-                            <div class="col-md-8 mb-3 mb-md-0">
-                                <input type="text" class="form-control py-3" id="coupon" placeholder="Coupon Code">
-                            </div>
-                            <div class="col-md-4">
-                                <button class="btn btn-black">Apply Coupon</button>
-                            </div>
-                        </div>
-                    </div>
+                   <div class="col-md-6"></div>
                     <div class="col-md-6 pl-5">
                         <div class="row justify-content-end">
                             <div class="col-md-7 cart-total">
