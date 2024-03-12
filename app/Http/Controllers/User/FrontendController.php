@@ -41,7 +41,7 @@ class FrontendController extends OsnovniController
         $categories = Category::all();
         $specifications = Specification::all();
         $materials = Material::all();
-
+        $products->appends(['categories' => $checkedCategories, 'materials' => $checkedMaterials, 'search' => $search, 'sort' => $sort]);
         return view("users.shop.shop", ['data'=>$this->data,"materials"=>$materials, "checkedMaterials"=>$checkedMaterials, "products"=>$products, "specifications"=>$specifications, "categories"=>$categories, 'checkedCat'=>$checkedCategories, 'search'=>$search]);
     }
 

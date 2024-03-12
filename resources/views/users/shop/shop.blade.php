@@ -38,8 +38,8 @@
                             <h4>Filter by Category</h4>
                             @foreach($categories as $category)
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="categories[]" {{in_array($category->id, $checkedCat ?? []) ? 'checked=true' : ''}} value="{{ $category->id }}">
-                                    <label class="form-check-label">{{ $category->category }}</label>
+                                    <input class="form-check-input" id="cb{{$category->id}}" type="checkbox" name="categories[]" {{in_array($category->id, $checkedCat ?? []) ? 'checked=true' : ''}} value="{{ $category->id }}">
+                                    <label class="form-check-label" for="cb{{$category->id}}">{{ $category->category }}</label>
                                 </div>
                             @endforeach
                         </div>
@@ -57,10 +57,10 @@
                         <div class="form-group mt-5">
                             <h4>Filter by Material</h4>
                             @foreach($materials as $material)
-{{--                            @php dd(in_array($material->id, $checkedMaterials ?? [])) @endphp--}}
+{{--                            @php dd(in_array($material->id, $checkedMaterials ?? []) @endphp--}}
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="materials[]" {{in_array($material->id, $checkedMaterials ?? []) ? 'checked' : ''}} value="{{ $material->id }}">
-                                    <label class="form-check-label">{{ $material->material }}</label>
+                                    <input class="form-check-input" id="mat{{$material->id}}" type="checkbox" name="materials[]" {{in_array($material->id, $checkedMaterials ?? []) ? 'checked=true' : ''}} value="{{ $material->id }}">
+                                    <label class="form-check-label" for="mat{{$material->id}}">{{ $material->material }}</label>
                                 </div>
                             @endforeach
                         </div>

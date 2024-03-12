@@ -112,9 +112,9 @@ class Product extends Model
 
         $query = $query->where("products.is_deleted", '=',0);
         $query = $query->where("prices.is_active", '=',1);
-        $query = $query->orderBy('prices.created_at', 'desc');
+//        $query = $query->orderBy('prices.created_at', 'desc');
 //        dd($query->toSql());
-        $query = $query->paginate(9);
+        $query = $query->paginate(9, ['categories' => $checkedCategories, 'materials' => $checkedMaterials, 'search' => $search, 'sort' => $sort]);
 
 
         return $query;
