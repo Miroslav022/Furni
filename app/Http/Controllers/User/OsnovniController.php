@@ -24,7 +24,7 @@ class OsnovniController extends Controller
             [
                 "name" => "Contact",
                 'route' => 'contact'
-            ],
+            ]
 
         ];
     }

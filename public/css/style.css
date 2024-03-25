@@ -64,6 +64,95 @@ display: flex;
     font-weight: 700;
 }
 
+/*Gallery*/
+.mySlides {
+    display: none;
+}
+
+/* Add a pointer when hovering over the thumbnail images */
+.cursor {
+    cursor: pointer;
+}
+
+/* Next & previous buttons */
+.controllers {
+    width: 100%;
+    display: flex;
+    height: auto;
+    justify-content: space-between;
+
+}
+
+.controllers  .prev,
+.next {
+    cursor: pointer;
+    /*position: absolute;*/
+    top: 40%;
+    width: auto;
+    padding: 16px;
+    color: #000000;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover,
+.next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+    color: #000000;
+    font-size: 12px;
+    /*padding: 8px 12px;*/
+    font-weight: 600;
+    /*position: absolute;*/
+    top: 0;
+}
+
+/* Container for image text */
+.caption-container {
+    text-align: center;
+    background-color: #222;
+    padding: 2px 16px;
+    color: white;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Six columns side by side */
+.column {
+    float: left;
+    width: 16.66%;
+}
+
+/* Add a transparency effect for thumnbail images */
+.demo {
+    opacity: 0.6;
+}
+
+.active,
+.demo:hover {
+    opacity: 1;
+}
+
+
+
 .apply {
     position: fixed;
     left: 20px;
@@ -401,6 +490,14 @@ a.more {
     font-weight: 700;
     color: #ffffff;
     margin-bottom: 30px;
+}
+
+
+.related_item_name{
+    color: black;
+    display: block;
+    text-decoration: none;
+    font-weight: 600;
 }
 
 @media (min-width: 1400px) {

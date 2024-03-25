@@ -6,18 +6,26 @@
         <div class="container">
             <div class="row gx-5">
                 <aside class="col-lg-6">
-                    <div class="border rounded-4 mb-3 d-flex justify-content-center">
-                        <img style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit"
-                             src="{{asset('products/'.$product->bg_image)}}"/>
-                    </div>
-                    <div class="d-flex justify-content-center mb-3">
-
-                        @foreach($product->images as $image)
-                            <img width="60" height="60" class="rounded-2" src="{{asset('products/'.$image->src)}}"/>
+                    <div class="container">
+                        @foreach($product->images as $key=>$image)
+                            <div class="mySlides">
+                                <div class="numbertext">{{$key++}} / {{count($product->images)}}</div>
+                                <img src="{{asset('products/'.$image->src)}}" style="width:100%">
+                            </div>
                         @endforeach
+                        <div class="controllers">
+                            <a class="prev" onclick="plusSlides(-1)">❮</a>
+                            <a class="next" onclick="plusSlides(1)">❯</a>
+                        </div>
+
+                        <div class="row">
+                            @foreach($product->images as $key=>$image)
+                            <div class="column">
+                                <img class="demo cursor" src="{{asset('products/'.$image->src)}}" style="width:100%" onclick="currentSlide({{$key+1}})" alt="{{$image->src}}">
+                            </div>
+                            @endforeach
+                        </div>
                     </div>
-                    <!-- thumbs-wrap.// -->
-                    <!-- gallery-wrap .end// -->
                 </aside>
                 <main class="col-lg-6">
                     <div class="ps-lg-3">
@@ -206,7 +214,7 @@
                                         </a>
                                         <div class="info">
                                             <a href="{{route('product.show', ["product"=>$s_product->id])}}"
-                                               class="nav-link mb-1">
+                                               class="related_item_name mb-1">
                                                 {{$s_product->product_name}} <br/>
                                                 {{$s_product->category->category}}
                                             </a>
@@ -229,5 +237,6 @@
     {{--    <script src="{{asset('js/addToCart.js')}}"></script>--}}
     <script src="{{asset('js/products/addProductFromSinglePage.js')}}"></script>
     <script src="{{asset('js/products/recension.js')}}"></script>
+    <script src="{{asset('js/products/gallery.js')}}"></script>
 
 @endsection

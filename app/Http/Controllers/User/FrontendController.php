@@ -62,6 +62,7 @@ class FrontendController extends OsnovniController
         return view('users.contact.index', ['data' => $this->data]);
     }
 
+
     public function editUserForm(){
         $countries = Country::where('is_deleted', 0)->get();
         $city = City::where('is_deleted', 0)->get();
